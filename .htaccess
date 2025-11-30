@@ -1,5 +1,12 @@
-<IfModule mod_rewrite.c>
-  RewriteEngine On
-  RewriteRule ^$ public/index.php [L]
-  RewriteRule ^((?!public/).*)$ public/$1 [L]
-</IfModule>
+# .htaccess
+# This file redirects all traffic to public/index.php
+
+Options -MultiViews
+RewriteEngine On
+
+# If the request is not a real file or directory...
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# ...redirect it to index.php
+RewriteRule ^(.+)$ public/index.php?url=$1 [QSA,L]
