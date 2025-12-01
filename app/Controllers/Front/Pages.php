@@ -1,6 +1,6 @@
 <?php
 
-class HomeController extends Controller {
+class Pages extends Controller {
     public function index() {
         $data = [
             'title' => 'Home Page'

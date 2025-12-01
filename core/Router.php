@@ -2,7 +2,7 @@
 // core/Router.php
 
 class Router {
-    protected $currentController = 'Pages'; // Default controller
+    protected $currentController = 'Forum'; // Default controller
     protected $currentMethod = 'index';     // Default method
     protected $params = [];
 
@@ -24,8 +24,8 @@ class Router {
         }
         else {
              // Fallback default
-             // Ensure you create app/Controllers/Front/Pages.php
-             require_once '../app/Controllers/Front/Pages.php';
+             // Ensure you create app/Controllers/Front/Forum.php
+             require_once '../app/Controllers/Front/Forum.php';
         }
 
         // Instantiate the controller class
