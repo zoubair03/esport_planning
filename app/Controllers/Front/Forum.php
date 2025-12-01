@@ -9,11 +9,10 @@ class Forum extends Controller {
     public function index(){
         $posts = $this->postModel->getPosts();
         
-        // Hardcoded User ID 1 (Admin) for now
-        $userId = 1; 
+        $userId = 1; // Admin
 
         foreach($posts as $post){
-            // Attach reaction data to each post object
+            // Attach reaction data
             $post->reactionCount = $this->reactionModel->getCount($post->postId);
             $post->currentUserReaction = $this->reactionModel->getCurrentUserReaction($post->postId, $userId);
             
@@ -25,9 +24,19 @@ class Forum extends Controller {
         $this->view('front/forum', $data);
     }
 
+    // --- FIX IS HERE ---
     public function show($id){
+        // 1. Get the Post
         $post = $this->postModel->getPostById($id);
+        
+        // 2. Get the Comments
         $comments = $this->commentModel->getCommentsByPostId($id);
+        
+        // 3. FIX: Get Reaction Stats for this single post (This was missing!)
+        $userId = 1; // Admin
+        $post->reactionCount = $this->reactionModel->getCount($post->postId);
+        $post->currentUserReaction = $this->reactionModel->getCurrentUserReaction($post->postId, $userId);
+
         $data = [
             'post' => $post,
             'comments' => $comments
@@ -35,7 +44,7 @@ class Forum extends Controller {
         $this->view('front/single_post', $data);
     }
 
-    // --- STANDARD POST SUBMISSION (Reloads Page) ---
+    // --- STANDARD POST SUBMISSION ---
     public function add(){
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -50,7 +59,7 @@ class Forum extends Controller {
             $data = [
                 'title' => trim($_POST['title']),
                 'body' => trim($_POST['body']),
-                'user_id' => 1, // Admin
+                'user_id' => 1, 
                 'image' => $imageName
             ];
 
@@ -65,30 +74,25 @@ class Forum extends Controller {
 
     // --- AJAX: REACT (No Reload) ---
     public function reactAjax($postId, $type){
-        $userId = 1; // Admin
+        $userId = 1; 
         
-        // 1. Toggle the reaction in DB
         $this->reactionModel->toggleReaction($postId, $userId, $type);
         
-        // 2. Get the new fresh count
         $newCount = $this->reactionModel->getCount($postId);
-        
-        // 3. Get the current status (so we know if we should highlight the button)
         $userReaction = $this->reactionModel->getCurrentUserReaction($postId, $userId);
         
-        // 4. Return as JSON
         echo json_encode([
             'status' => 'success',
             'newCount' => $newCount,
-            'userReaction' => $userReaction // 'like', 'love', or false
+            'userReaction' => $userReaction
         ]);
-        exit; // Stop script so we don't return HTML
+        exit;
     }
 
     // --- AJAX: ADD COMMENT (No Reload) ---
     public function addCommentAjax($postId){
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
-            $userId = 1; // Admin
+            $userId = 1; 
             $content = trim($_POST['body']);
             
             if(!empty($content)){
@@ -98,11 +102,9 @@ class Forum extends Controller {
                     'content' => $content
                 ];
                 
-                // 1. Save to DB
                 $this->commentModel->addComment($data);
                 
-                // 2. Generate the HTML for this specific comment immediately
-                // Note: In a real app, you would fetch the user's real name and avatar
+                // Return HTML for the new comment
                 $html = '
                 <div class="d-flex mb-2">
                     <div class="avatar avatar-xs me-2">

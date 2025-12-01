@@ -9,7 +9,7 @@ Footer START -->
 			<div class="col-lg-3">
 				<!-- logo -->
 				<a href="index.html">
-					<img class="h-40px" src="assets/images/logo-light.svg" alt="logo">
+					<img class="h-40px" src="<?php echo URLROOT; ?>/assets/images/logo-light.svg" alt="logo">
 				</a>
 				<p class="my-3 text-body-secondary">Departure defective arranging rapturous did believe him all had supported.</p>
 				<p class="mb-2"><a href="#" class="text-body-secondary text-primary-hover"><i class="bi bi-telephone me-2"></i>+1234 568 963</a> </p>
@@ -107,10 +107,10 @@ Footer START -->
 			<div class="col-sm-7 col-md-6 col-lg-4">
 				<h5 class="text-white mb-2">Payment & Security</h5>
 				<ul class="list-inline mb-0 mt-3">
-					<li class="list-inline-item"> <a href="#"><img src="assets/images/element/paypal.svg" class="h-30px" alt=""></a></li>
-					<li class="list-inline-item"> <a href="#"><img src="assets/images/element/visa.svg" class="h-30px" alt=""></a></li>
-					<li class="list-inline-item"> <a href="#"><img src="assets/images/element/mastercard.svg" class="h-30px" alt=""></a></li>
-					<li class="list-inline-item"> <a href="#"><img src="assets/images/element/expresscard.svg" class="h-30px" alt=""></a></li>
+					<li class="list-inline-item"> <a href="#"><img src="<?php echo URLROOT; ?>/assets/images/element/paypal.svg" class="h-30px" alt=""></a></li>
+					<li class="list-inline-item"> <a href="#"><img src="<?php echo URLROOT; ?>/assets/images/element/visa.svg" class="h-30px" alt=""></a></li>
+					<li class="list-inline-item"> <a href="#"><img src="<?php echo URLROOT; ?>/assets/images/element/mastercard.svg" class="h-30px" alt=""></a></li>
+					<li class="list-inline-item"> <a href="#"><img src="<?php echo URLROOT; ?>/assets/images/element/expresscard.svg" class="h-30px" alt=""></a></li>
 				</ul>
 			</div>
 
@@ -189,17 +189,16 @@ Footer END -->
 <!-- Navbar mobile END -->
 
 <!-- Bootstrap JS -->
-<script src="assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="<?php echo URLROOT; ?>/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
 <!-- Vendors -->
-<script src="assets/vendor/tiny-slider/tiny-slider.js"></script>
-<script src="assets/vendor/glightbox/js/glightbox.js"></script>
-<script src="assets/vendor/flatpickr/js/flatpickr.min.js"></script>
-<script src="assets/vendor/choices/js/choices.min.js"></script>
+<script src="<?php echo URLROOT; ?>/assets/vendor/tiny-slider/tiny-slider.js"></script>
+<script src="<?php echo URLROOT; ?>/assets/vendor/glightbox/js/glightbox.js"></script>
+<script src="<?php echo URLROOT; ?>/assets/vendor/flatpickr/js/flatpickr.min.js"></script>
+<script src="<?php echo URLROOT; ?>/assets/vendor/choices/js/choices.min.js"></script>
 
 <!-- ThemeFunctions -->
-<script src="assets/js/functions.js"></script>
+<script src="<?php echo URLROOT; ?>/assets/js/functions.js"></script>
 
-</body>
 
 <!-- Mirrored from booking.webestica.com/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 20 Feb 2024 15:40:33 GMT -->

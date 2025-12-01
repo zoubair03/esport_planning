@@ -118,3 +118,65 @@
 </section>
 
 <?php require_once APPROOT . '/Views/layout/front_footer.php'; ?>
+<script>
+    const URLROOT = '<?php echo URLROOT; ?>';
+
+    // 1. AJAX Reaction Function
+    function toggleReaction(postId, type) {
+        // Send request to server
+        fetch(`${URLROOT}/forum/reactAjax/${postId}/${type}`)
+            .then(response => response.json())
+            .then(data => {
+                if(data.status === 'success') {
+                    // Update Reaction Count Instantly
+                    document.getElementById(`reaction-count-${postId}`).innerText = data.newCount;
+                    
+                    // Update Buttons Styles
+                    const btnLike = document.getElementById(`btn-like-${postId}`);
+                    const btnLove = document.getElementById(`btn-love-${postId}`);
+                    
+                    // Reset both buttons to gray
+                    btnLike.className = 'nav-link text-secondary';
+                    btnLove.className = 'nav-link text-secondary';
+
+                    // Highlight the active one
+                    if (data.userReaction === 'like') {
+                        btnLike.className = 'nav-link text-primary fw-bold';
+                    } else if (data.userReaction === 'love') {
+                        btnLove.className = 'nav-link text-danger fw-bold';
+                    }
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    // 2. AJAX Comment Function
+    function postComment(e, postId) {
+        e.preventDefault(); // STOP the page from reloading
+        
+        const inputField = document.getElementById(`comment-input-${postId}`);
+        const content = inputField.value;
+        
+        // Create form data to send
+        const formData = new FormData();
+        formData.append('body', content);
+
+        // Send to server
+        fetch(`${URLROOT}/forum/addCommentAjax/${postId}`, {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(data.status === 'success') {
+                // Add the new HTML comment to the bottom of the list
+                const commentList = document.getElementById(`comment-list-${postId}`);
+                commentList.insertAdjacentHTML('beforeend', data.html);
+                
+                // Clear the text box
+                inputField.value = '';
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+</script>
