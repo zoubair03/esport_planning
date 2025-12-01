@@ -11,8 +11,9 @@ define('DB_NAME', 'forum_db');
 define('APPROOT', dirname(dirname(__FILE__)));
 
 // URL Root (Dynamic links)
-// Edit this if your project is in a subfolder, e.g., 'http://localhost/mokni'
-define('URLROOT', 'http://localhost/mokni');
+
+define('URLROOT', 'http://localhost/esport_planning');
 
 // Site Name
 define('SITENAME', 'My Forum Project');
+
