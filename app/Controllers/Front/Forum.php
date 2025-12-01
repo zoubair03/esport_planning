@@ -8,6 +8,19 @@ class Forum extends Controller {
 
     public function index(){
         $posts = $this->postModel->getPosts();
+        
+        // Hardcoded User ID 1 (Admin) for now
+        $userId = 1; 
+
+        foreach($posts as $post){
+            // Attach reaction data to each post object
+            $post->reactionCount = $this->reactionModel->getCount($post->postId);
+            $post->currentUserReaction = $this->reactionModel->getCurrentUserReaction($post->postId, $userId);
+            
+            // Attach recent comments
+            $post->recentComments = $this->commentModel->getRecentComments($post->postId);
+        }
+
         $data = ['posts' => $posts];
         $this->view('front/forum', $data);
     }
@@ -22,64 +35,93 @@ class Forum extends Controller {
         $this->view('front/single_post', $data);
     }
 
-    // --- HANDLE POST CREATION ---
+    // --- STANDARD POST SUBMISSION (Reloads Page) ---
     public function add(){
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
-            // 1. Sanitize
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-
-            // 2. Handle Image Upload
+            
             $imageName = null;
             if(isset($_FILES['image']) && $_FILES['image']['error'] === 0){
                 $imageName = time() . '_' . $_FILES['image']['name'];
-                // Use absolute path for reliability
                 $target = APPROOT . '/../public/assets/images/post/' . $imageName;
                 move_uploaded_file($_FILES['image']['tmp_name'], $target);
             }
 
-            // 3. Prepare Data
             $data = [
                 'title' => trim($_POST['title']),
                 'body' => trim($_POST['body']),
-                'user_id' => 2, // Hardcoded User ID (John Doe) for now
+                'user_id' => 1, // Admin
                 'image' => $imageName
             ];
 
-            // 4. Validate and Submit
             if(!empty($data['title']) && !empty($data['body'])){
-                if($this->postModel->addPost($data)){
-                    header('location: ' . URLROOT . '/forum');
-                } else {
-                    die('Database error: Could not add post.');
-                }
+                $this->postModel->addPost($data);
+                header('location: ' . URLROOT . '/forum');
             } else {
                 die('Please fill in all fields');
             }
-        } else {
-            // Redirect if accessed directly
-            header('location: ' . URLROOT . '/forum');
         }
     }
 
-    public function addComment($postId){
+    // --- AJAX: REACT (No Reload) ---
+    public function reactAjax($postId, $type){
+        $userId = 1; // Admin
+        
+        // 1. Toggle the reaction in DB
+        $this->reactionModel->toggleReaction($postId, $userId, $type);
+        
+        // 2. Get the new fresh count
+        $newCount = $this->reactionModel->getCount($postId);
+        
+        // 3. Get the current status (so we know if we should highlight the button)
+        $userReaction = $this->reactionModel->getCurrentUserReaction($postId, $userId);
+        
+        // 4. Return as JSON
+        echo json_encode([
+            'status' => 'success',
+            'newCount' => $newCount,
+            'userReaction' => $userReaction // 'like', 'love', or false
+        ]);
+        exit; // Stop script so we don't return HTML
+    }
+
+    // --- AJAX: ADD COMMENT (No Reload) ---
+    public function addCommentAjax($postId){
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
-            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            $userId = 2; 
-            $data = [
-                'post_id' => $postId,
-                'user_id' => $userId, 
-                'content' => trim($_POST['body'])
-            ];
-            if(!empty($data['content'])){
+            $userId = 1; // Admin
+            $content = trim($_POST['body']);
+            
+            if(!empty($content)){
+                $data = [
+                    'post_id' => $postId,
+                    'user_id' => $userId, 
+                    'content' => $content
+                ];
+                
+                // 1. Save to DB
                 $this->commentModel->addComment($data);
-            }
-            header('location: ' . URLROOT . '/forum/show/' . $postId); 
-        }
-    }
+                
+                // 2. Generate the HTML for this specific comment immediately
+                // Note: In a real app, you would fetch the user's real name and avatar
+                $html = '
+                <div class="d-flex mb-2">
+                    <div class="avatar avatar-xs me-2">
+                        <img class="avatar-img rounded-circle" src="'.URLROOT.'/assets/images/avatar/01.jpg" alt="">
+                    </div>
+                    <div class="bg-light rounded p-2 w-100">
+                        <div class="d-flex justify-content-between">
+                            <h6 class="mb-0 small">Me (Admin)</h6>
+                            <small class="text-muted" style="font-size: 10px;">Just now</small>
+                        </div>
+                        <p class="small mb-0 text-muted">'.htmlspecialchars($content).'</p>
+                    </div>
+                </div>';
 
-    public function react($postId, $type){
-        $userId = 2; 
-        $this->reactionModel->addReaction($postId, $userId, $type);
-        header('location: ' . URLROOT . '/forum');
+                echo json_encode(['status' => 'success', 'html' => $html]);
+                exit;
+            }
+        }
+        echo json_encode(['status' => 'error']);
+        exit;
     }
 }
