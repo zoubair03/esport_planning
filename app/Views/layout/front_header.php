@@ -72,7 +72,7 @@
 	</script>
 
 	<!-- Favicon -->
-	<link rel="shortcut icon" href="assets/images/favicon.ico">
+	<link rel="shortcut icon" href="<?php echo URLROOT; ?>/public/assets/images/favicon.ico">
 
 	<!-- Google Font -->
 	<link rel="preconnect" href="https://fonts.googleapis.com/">
@@ -80,16 +80,16 @@
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&amp;family=Poppins:wght@400;500;700&amp;display=swap">
 
 	<!-- Plugins CSS -->
-	<link rel="stylesheet" type="text/css" href="assets/vendor/font-awesome/css/all.min.css">
-	<link rel="stylesheet" type="text/css" href="assets/vendor/bootstrap-icons/bootstrap-icons.css">
-	<link rel="stylesheet" type="text/css" href="assets/vendor/tiny-slider/tiny-slider.css">
-	<link rel="stylesheet" type="text/css" href="assets/vendor/glightbox/css/glightbox.css">
-	<link rel="stylesheet" type="text/css" href="assets/vendor/flatpickr/css/flatpickr.min.css">
-	<link rel="stylesheet" type="text/css" href="assets/vendor/choices/css/choices.min.css">
+	<link rel="stylesheet" type="text/css" href="<?php echo URLROOT; ?>/public/assets/vendor/font-awesome/css/all.min.css">
+	<link rel="stylesheet" type="text/css" href="<?php echo URLROOT; ?>/public/assets/vendor/bootstrap-icons/bootstrap-icons.css">
+	<link rel="stylesheet" type="text/css" href="<?php echo URLROOT; ?>/public/assets/vendor/tiny-slider/tiny-slider.css">
+	<link rel="stylesheet" type="text/css" href="<?php echo URLROOT; ?>/public/assets/vendor/glightbox/css/glightbox.css">
+	<link rel="stylesheet" type="text/css" href="<?php echo URLROOT; ?>/public/assets/vendor/flatpickr/css/flatpickr.min.css">
+	<link rel="stylesheet" type="text/css" href="<?php echo URLROOT; ?>/public/assets/vendor/choices/css/choices.min.css">
 	
 
 	<!-- Theme CSS -->
-	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+	<link rel="stylesheet" type="text/css" href="<?php echo URLROOT; ?>/public/assets/css/style.css">
 
 </head>
 
@@ -101,9 +101,9 @@
 	<nav class="navbar navbar-expand-xl">
 		<div class="container">
 			<!-- Logo START -->
-			<a class="navbar-brand" href="index.html">
-				<img class="light-mode-item navbar-brand-item" src="assets/images/logo.svg" alt="logo">
-				<img class="dark-mode-item navbar-brand-item" src="assets/images/logo-light.svg" alt="logo">
+			<a class="navbar-brand" href="<?php echo URLROOT; ?>/index.html">
+				<img class="light-mode-item navbar-brand-item" src="<?php echo URLROOT; ?>/public/assets/images/logo.svg" alt="logo">
+				<img class="dark-mode-item navbar-brand-item" src="<?php echo URLROOT; ?>/public/assets/images/logo-light.svg" alt="logo">
 			</a>
 			<!-- Logo END -->
 
@@ -413,7 +413,7 @@
 				<li class="nav-item ms-3 dropdown">
 					<!-- Avatar -->
 					<a class="avatar avatar-sm p-0" href="#" id="profileDropdown" role="button" data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown" aria-expanded="false">
-						<img class="avatar-img rounded-2" src="assets/images/avatar/01.jpg" alt="avatar">
+						<img class="avatar-img rounded-2" src="<?php echo URLROOT; ?>/public/assets/images/avatar/01.jpg" alt="avatar">
 					</a>
 
 					<ul class="dropdown-menu dropdown-animation dropdown-menu-end shadow pt-3" aria-labelledby="profileDropdown">
@@ -422,7 +422,7 @@
 							<div class="d-flex align-items-center">
 								<!-- Avatar -->
 								<div class="avatar me-3">
-									<img class="avatar-img rounded-circle shadow" src="assets/images/avatar/01.jpg" alt="avatar">
+									<img class="avatar-img rounded-circle shadow" src="<?php echo URLROOT; ?>/public/assets/images/avatar/01.jpg" alt="avatar">
 								</div>
 								<div>
 									<a class="h6 mt-2 mt-sm-0" href="#">Lori Ferguson</a>
