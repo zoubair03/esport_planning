@@ -6,7 +6,7 @@
         <!-- Title and Share Button -->
         <div class="row mb-4 align-items-center">
             <div class="col-md-6">
-                <h1 class="h2 text-white">Community Feed</h1>
+                <h1 class="h2 mb-3 mb-sm-0">Community Feed</h1>
             </div>
             <div class="col-md-6 text-md-end">
                 <button type="button" class="btn btn-primary" 
