@@ -21130,7 +21130,7 @@ body.dashboard main {
 }
 .page-content .page-content-wrapper {
   min-height: 86vh;
-  margin: 1.5rem 1.5rem;
+    margin: 1.5rem 1.5rem;
   background: var(--bs-body-bg);
   border-radius: 6px;
   height: 100%;
@@ -21145,9 +21145,11 @@ body.dashboard main {
 
 @media (min-width: 1200px) {
   .page-content {
-    margin-left: 16.25rem;
+    /*margin-left: 16.25rem;*/
+      margin: auto 10rem;
   }
 }
+
 @media (max-width: 575.98px) {
   .page-content .page-content-wrapper {
     margin: 1rem 0;

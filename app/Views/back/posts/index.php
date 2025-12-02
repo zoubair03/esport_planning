@@ -30,6 +30,11 @@ body[dir=rtl] .admin-posts-list *,
     text-align: left !important;
     unicode-bidi: isolate-override !important;
 }
+
+.btn
+{
+    margin-bottom: 0 !important;
+}
 </style>
 
 <?php
@@ -84,9 +89,6 @@ function qs($overrides = []){
             <div class="col-12 mb-4 mb-sm-5">
                 <div class="d-sm-flex justify-content-between align-items-center">
                     <h1 class="h3 mb-3 mb-sm-0">Posts Management</h1>
-                    <div class="d-grid">
-                        <a href="#" class="btn btn-primary mb-0"><i class="bi bi-filetype-pdf me-2"></i>Generate Report</a>
-                    </div>
                 </div>
             </div>
         </div>
@@ -142,14 +144,14 @@ function qs($overrides = []){
             <div class="card-body text-start">
                 <!-- Table head -->
                 <div class="bg-light rounded p-3 d-none d-lg-block text-start">
-                    <div class="row row-cols-7 g-4">
-                        <div class="col"><h6 class="mb-0 text-start">Post</h6></div>
-                        <div class="col"><h6 class="mb-0 text-start">Posted</h6></div>
-                        <div class="col"><h6 class="mb-0 text-start">Title</h6></div>
-                        <div class="col"><h6 class="mb-0 text-start">Image</h6></div>
-                        <div class="col"><h6 class="mb-0 text-start">Reactions</h6></div>
-                        <div class="col"><h6 class="mb-0 text-start">Status</h6></div>
-                        <div class="col"><h6 class="mb-0 text-start">Action</h6></div>
+                    <!-- Use explicit responsive column widths so Action column can be wider on lg+ -->
+                    <div class="row g-4">
+                        <div class="col-12 col-lg-2"><h6 class="mb-0 text-start">Post</h6></div>
+                        <div class="col-12 col-lg-2"><h6 class="mb-0 text-start">Posted</h6></div>
+                        <div class="col-12 col-lg-2"><h6 class="mb-0 text-start">Title</h6></div>
+                        <div class="col-12 col-lg-1"><h6 class="mb-0 text-start">Reactions</h6></div>
+                        <div class="col-12 col-lg-2"><h6 class="mb-0 text-start">Status</h6></div>
+                        <div class="col-12 col-lg-3"><h6 class="mb-0 text-start">Action</h6></div>
                     </div>
                 </div>
 
@@ -159,9 +161,10 @@ function qs($overrides = []){
                 <?php endif; ?>
 
                 <?php foreach($visible as $post): ?>
-                    <div class="row row-cols-xl-7 align-items-lg-center border-bottom g-4 px-2 py-4 text-start">
+                    <!-- Use explicit responsive column classes so Action column is wider on lg+ -->
+                    <div class="row align-items-lg-center border-bottom g-4 px-2 py-4 text-start">
                         <!-- Post / Author -->
-                        <div class="col text-start">
+                        <div class="col-12 col-lg-2 text-start">
                             <small class="d-block d-lg-none">Post:</small>
                             <div class="d-flex align-items-center justify-content-start">
                                 <div class="avatar avatar-xs flex-shrink-0">
@@ -174,35 +177,25 @@ function qs($overrides = []){
                         </div>
 
                         <!-- Posted date -->
-                        <div class="col text-start">
+                        <div class="col-12 col-lg-2 text-start">
                             <small class="d-block d-lg-none">Posted:</small>
                             <h6 class="mb-0 fw-normal"><?php echo htmlspecialchars($post->postCreated); ?></h6>
                         </div>
 
                         <!-- Title / excerpt -->
-                        <div class="col text-start">
+                        <div class="col-12 col-lg-2 text-start">
                             <small class="d-block d-lg-none">Title:</small>
                             <h6 class="mb-0 fw-normal"><?php echo htmlspecialchars($post->title); ?></h6>
                         </div>
 
-                        <!-- Image placeholder -->
-                        <div class="col text-start">
-                            <small class="d-block d-lg-none">Image:</small>
-                            <?php if(!empty($post->image)): ?>
-                                <img src="<?php echo URLROOT; ?>/assets/images/post/<?php echo $post->image; ?>" alt="img" class="rounded" style="height:40px; object-fit:cover">
-                            <?php else: ?>
-                                <span class="text-muted small">—</span>
-                            <?php endif; ?>
-                        </div>
-
                         <!-- Reactions -->
-                        <div class="col text-start">
+                        <div class="col-12 col-lg-1 text-start">
                             <small class="d-block d-lg-none">Reactions:</small>
                             <h6 class="mb-0 fw-normal"><?php echo htmlspecialchars($post->reactionCount ?? 0); ?></h6>
                         </div>
 
                         <!-- Approved status -->
-                        <div class="col text-start">
+                        <div class="col-12 col-lg-2 text-start">
                             <small class="d-block d-lg-none">Status:</small>
                             <?php if(!empty($post->approved)): ?>
                                 <div class="badge bg-success bg-opacity-10 text-success">Approved</div>
@@ -211,8 +204,8 @@ function qs($overrides = []){
                             <?php endif; ?>
                         </div>
 
-                        <!-- Action -->
-                        <div class="col text-start">
+                        <!-- Action (wider on large screens) -->
+                        <div class="col-12 col-lg-3 text-start">
                             <a href="<?php echo URLROOT; ?>/postcontroller/show/<?php echo $post->postId; ?>" class="btn btn-sm btn-light mb-0">View</a>
                             <?php if(empty($post->approved)): ?>
                                 <form action="<?php echo URLROOT; ?>/admin/approve/<?php echo $post->postId; ?>" method="POST" style="display:inline">
@@ -226,7 +219,7 @@ function qs($overrides = []){
                             </form>
                         </div>
                     </div>
-                <?php endforeach; ?>
+                 <?php endforeach; ?>
 
             </div>
             <!-- Card body END -->
