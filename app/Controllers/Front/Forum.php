@@ -7,8 +7,9 @@ class Forum extends Controller {
     }
 
     public function index(){
-        $posts = $this->postModel->getPosts();
-        
+        // Only fetch approved posts for public feed
+        $posts = $this->postModel->getPosts(true);
+
         $userId = 1; // Admin
 
         foreach($posts as $post){
@@ -26,9 +27,14 @@ class Forum extends Controller {
 
     // --- FIX IS HERE ---
     public function show($id){
-        // 1. Get the Post
-        $post = $this->postModel->getPostById($id);
-        
+        // 1. Get the Post (for public view only approved posts)
+        $post = $this->postModel->getPostById($id, true);
+
+        // If post not found (maybe it's pending), show 404 or redirect
+        if(!$post){
+            die('Post not found or not approved yet.');
+        }
+
         // 2. Get the Comments
         $comments = $this->commentModel->getCommentsByPostId($id);
         
@@ -60,7 +66,9 @@ class Forum extends Controller {
                 'title' => trim($_POST['title']),
                 'body' => trim($_POST['body']),
                 'user_id' => 1, 
-                'image' => $imageName
+                'image' => $imageName,
+                // New posts from normal users are not approved until admin approves
+                'approved' => 0
             ];
 
             if(!empty($data['title']) && !empty($data['body'])){

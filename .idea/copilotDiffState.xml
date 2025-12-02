@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CopilotDiffPersistence">
+    <option name="pendingDiffs">
+      <map>
+        <entry key="$PROJECT_DIR$/database/migrations/2025_add_approved_to_posts.sql">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/database/migrations/2025_add_approved_to_posts.sql" />
+              <option name="originalContent" value="-- Migration: add approved flag to posts&#10;ALTER TABLE `posts`&#10;  ADD COLUMN `approved` TINYINT(1) NOT NULL DEFAULT 0 AFTER `content`;&#10;&#10;-- Mark existing posts as approved so live content remains visible&#10;UPDATE `posts` SET `approved` = 1 WHERE `approved` IS NULL OR `approved` = 0; -- adjust as needed&#10;" />
+              <option name="updatedContent" value="-- Migration: add approved flag to posts&#10;ALTER TABLE `posts`&#10;  ADD COLUMN `approved` TINYINT(1) NOT NULL DEFAULT 0 AFTER `content`;&#10;&#10;-- Mark existing posts as approved so live content remains visible&#10;UPDATE `posts` SET `approved` = 1 WHERE `approved` IS NULL OR `approved` = 0; -- adjust as needed&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

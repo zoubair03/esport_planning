@@ -1,3 +1,16 @@
+<?php
+// Ensure session started and a CSRF token exists for forms
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+if (empty($_SESSION['csrf_token'])) {
+    if (function_exists('random_bytes')) {
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    } else {
+        $_SESSION['csrf_token'] = bin2hex(openssl_random_pseudo_bytes(32));
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 

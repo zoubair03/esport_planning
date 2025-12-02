@@ -12,7 +12,7 @@ define('APPROOT', dirname(dirname(__FILE__)));
 
 // URL Root (Dynamic links)
 
-define('URLROOT', 'http://localhost/esport_planning/public');
+define('URLROOT', 'http://localhost:8000/esport_planning/public');
 
 // Site Name
 define('SITENAME', 'My Forum Project');
