@@ -13,6 +13,8 @@ class PostController extends Controller {
         }
 
         $this->postModel = $this->model('Post');
+        $this->reactionModel = $this->model('Reaction');
+        $this->commentModel = $this->model('Comment');
     }
 
     public function index() {
@@ -28,7 +30,19 @@ class PostController extends Controller {
         if(!$post){
             die('Post not found');
         }
-        $data = ['post' => $post];
+
+        // Fetch reaction data
+        $userId = 1; // Admin user ID
+        $post->reactionCount = $this->reactionModel->getCount($post->postId);
+        $post->currentUserReaction = $this->reactionModel->getCurrentUserReaction($post->postId, $userId);
+
+        // Fetch comments
+        $comments = $this->commentModel->getCommentsByPostId($id);
+
+        $data = [
+            'post' => $post,
+            'comments' => $comments
+        ];
         $this->view('back/posts/show', $data);
     }
 

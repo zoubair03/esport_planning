@@ -11,6 +11,7 @@ class Admin extends Controller {
         }
 
         $this->postModel = $this->model('Post');
+        $this->reactionModel = $this->model('Reaction');
     }
 
     // Default admin dashboard - redirect to posts
@@ -23,6 +24,14 @@ class Admin extends Controller {
     public function posts(){
         $all = $this->postModel->getPosts(false); // all posts
         $pending = $this->postModel->getPendingPosts();
+
+        // Attach reaction counts
+        foreach($all as $post){
+            $post->reactionCount = $this->reactionModel->getCount($post->postId);
+        }
+        foreach($pending as $post){
+            $post->reactionCount = $this->reactionModel->getCount($post->postId);
+        }
         $data = [
             'all' => $all,
             'pending' => $pending
